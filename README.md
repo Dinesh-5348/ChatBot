@@ -1,6 +1,6 @@
 # Lumen Chatbot
 
-A frontend-only React chatbot powered by the Groq API.
+A React chatbot powered by Groq through a Vercel serverless API route.
 
 ## Run locally
 
@@ -17,4 +17,10 @@ A frontend-only React chatbot powered by the Groq API.
    npm run dev
    ```
 
-The browser calls the Groq API directly. This is suitable for local experiments only because the API key is bundled into client-side JavaScript. Use a backend or serverless proxy before deploying with a real key.
+The browser calls `/api/chat`; the Groq API key stays on the server and is never bundled into client-side JavaScript.
+
+## Deploy to Vercel
+
+Import this repository into Vercel and add `GROQ_API_KEY` under the project environment variables. Vercel detects the Vite frontend and the `api/chat.js` serverless function automatically.
+
+For local serverless development, install the Vercel CLI and run `vercel dev`.

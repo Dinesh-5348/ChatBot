@@ -29,19 +29,13 @@ function App() {
     setIsLoading(true)
 
     try {
-      const apiKey = import.meta.env.VITE_GROQ_API_KEY || import.meta.env.GROQ_API_KEY
-      if (!apiKey) throw new Error('Add GROQ_API_KEY to .env and restart the dev server.')
-
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'qwen/qwen3.8-27b',
           messages: nextMessages,
-          temperature: 0.7,
         }),
       })
 
@@ -49,7 +43,7 @@ function App() {
       if (!response.ok) {
         throw new Error(data.error?.message || data.message || `Request failed with status ${response.status}`)
       }
-      const reply = data.choices?.[0]?.message?.content
+      const reply = data.content
       if (!reply) throw new Error('The API returned an empty response.')
       setMessages((current) => [...current, { role: 'assistant', content: reply }])
     } catch (requestError) {
